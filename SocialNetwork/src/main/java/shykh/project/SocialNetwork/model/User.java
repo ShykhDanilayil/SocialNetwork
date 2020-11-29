@@ -15,9 +15,10 @@ import java.util.List;
 @Table(name = "user")
 public class User {
 
-    @Column(name = "use_id")
+    @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "user_id")
     private String id;
     @Column(name = "name")
     private String name;
@@ -32,7 +33,9 @@ public class User {
     @Lob
     @Column(name = "photo")
     private byte[] photo;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_massage", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_id"))
     private List<Message> messages;
 
     public User(String name, String lastName, int age, String email, String password, byte[] photo) {
@@ -42,5 +45,9 @@ public class User {
         this.email = email;
         this.password = password;
         this.photo = photo;
+    }
+
+    public void addMessage(Message message){
+        messages.add(message);
     }
 }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,34 +18,33 @@ import java.util.List;
 @Table(name = "message")
 public class Message {
 
-    @Column(name = "message_id")
+    @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "message_id")
     private String id;
-    @Column(name = "user_from")
-    private User fromUser;
-    @Column(name = "user_to")
-    private User toUser;
+    @Column(name = "id_user_from")
+    private String idUserFrom;
+    @Column(name = "id_user_to")
+    private String idUserTo;
     @Column(name = "text")
     private String text;
     @Column(name = "date")
     private String date;
     @Column(name = "time")
     private String time;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_massage", joinColumns = @JoinColumn(name = "message_id"),
-    inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(mappedBy = "messages")
     private List<User> users;
 
-    public Message(User fromUser, User toUser, String text) {
-        this.fromUser = fromUser;
-        this.toUser = toUser;
+    public Message(String idUserFrom, String idUserTo, String text) {
+        this.idUserFrom = idUserFrom;
+        this.idUserTo = idUserTo;
         this.text = text;
-        this.date = dateMessage.format(dNow);
-        this.time = timeMessage.format(dNow);
+        this.date = new SimpleDateFormat ("dd.MM.yyyy").format(new Date());
+        this.time = new SimpleDateFormat ("hh:mm:ss").format(new Date());
     }
 
-    Date dNow = new Date();
-    SimpleDateFormat dateMessage = new SimpleDateFormat ("dd.MM.yyyy");
-    SimpleDateFormat timeMessage = new SimpleDateFormat ("hh:mm:ss");
+    public void addUser(User user){
+        users.add(user);
+    }
 }
