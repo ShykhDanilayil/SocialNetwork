@@ -20,8 +20,11 @@ $("div#exit").ready(function () {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "/register");
             xhr.send(formData);
-            if (xhr.status === 201) {
-                console.log("User created");
+
+            xhr.onload = function () {
+                if (xhr.status === 201) {
+                    console.log("User created");
+                }
             }
         }
     });
