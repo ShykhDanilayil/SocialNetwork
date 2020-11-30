@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
 
     @Override
-    public User created(User user) {
+    public User create(User user) {
         return repository.save(user);
     }
 
@@ -25,7 +25,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return repository.findAll();
     }
-}
+    }

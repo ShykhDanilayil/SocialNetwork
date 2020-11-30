@@ -1,12 +1,14 @@
 package shykh.project.SocialNetwork.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import shykh.project.SocialNetwork.model.Message;
 import shykh.project.SocialNetwork.repository.MessageRepository;
 import shykh.project.SocialNetwork.service.MessageService;
 
 import java.util.List;
 
+@Service
 public class MessageServiceImpl implements MessageService {
 
     @Autowired
@@ -26,4 +28,5 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> getAllMessages() {
         return repository.findAll();
     }
+
 }

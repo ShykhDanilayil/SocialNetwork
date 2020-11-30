@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface UserService {
 
-    User created(User user);
+    User create(User user);
 
     User getById(String id);
+
+    User getByEmail(String email);
 
     List<User> getAllUsers();
 }
