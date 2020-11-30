@@ -6,4 +6,6 @@ import shykh.project.SocialNetwork.model.Message;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, String> {
+
+
 }

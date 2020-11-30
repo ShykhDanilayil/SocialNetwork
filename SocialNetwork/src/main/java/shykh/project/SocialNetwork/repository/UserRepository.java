@@ -6,4 +6,6 @@ import shykh.project.SocialNetwork.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+
+    User findByEmail(String email);
 }
