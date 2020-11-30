@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import shykh.project.SocialNetwork.model.User;
 import shykh.project.SocialNetwork.service.impl.UserServiceImpl;
 import shykh.project.SocialNetwork.model.response.UserLogin;
@@ -24,7 +25,7 @@ public class UserController {
     UserServiceImpl service;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registration(HttpServletRequest req){
+    public ResponseEntity<?> registration(@RequestParam("photo") MultipartFile file, HttpServletRequest req) throws IOException {
 
         String name = req.getParameter("name");
         String lastName = req.getParameter("lastName");
@@ -32,23 +33,24 @@ public class UserController {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        byte[] data = req.getParameter("photo").getBytes();
+        byte[] data = file.getBytes();
 
         if (!name.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-            User user = new User(name, lastName, age, email, password, data);
-            if (Objects.isNull(service.getByEmail(email))) {
-                log.error("User with email {} already exists!", user.getEmail());
+            if (!Objects.isNull(service.getByEmail(email))) {
+                log.error("User with email {} already exists!", email);
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
+
+            User user = new User(name, lastName, age, email, password, data);
             service.create(user);
-            log.info("User {} was added", user);
+            log.info("User {} was added", user.getName());
         }
             return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String email = req.getParameter("email");
+        String email = req.getParameter("email1");
         User user = service.getByEmail(email);
 
         if (!Objects.isNull(user)) {
@@ -56,7 +58,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String password = req.getParameter("password");
+        String password = req.getParameter("password1");
 
         if (!password.equals(user.getPassword())) {
             log.error("The password is incorrect!");
