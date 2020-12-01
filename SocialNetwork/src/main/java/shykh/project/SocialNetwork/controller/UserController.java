@@ -13,6 +13,7 @@ import shykh.project.SocialNetwork.model.response.UserLogin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -53,8 +54,8 @@ public class UserController {
         String email = req.getParameter("email1");
         User user = service.getByEmail(email);
 
-        if (!Objects.isNull(user)) {
-            log.error("User with email {} already exists!", user.getEmail());
+        if (Objects.isNull(user)) {
+            log.error("User with email {} don't exist!", user.getEmail());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -66,6 +67,13 @@ public class UserController {
         }
 
         UserLogin userLogin = new UserLogin(user);
+
+        HttpSession session = req.getSession(true);
+        session.setAttribute("name",user.getName());
+        session.setAttribute("lastName",user.getLastName());
+        session.setAttribute("age",user.getAge());
+        session.setAttribute("email",user.getEmail());
+        session.setAttribute("photo",user.getPhoto());
 
         String json = new Gson().toJson(userLogin);
         resp.setContentType("application/json");
@@ -86,14 +94,35 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/cabinet")
+    public ResponseEntity<UserLogin> getUserByEmail(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String email = req.getSession().getAttribute("email").toString();
+        log.info("Looking for a user by email {}", email);
+        User user = service.getByEmail(email);
+        if (Objects.isNull(user)){
+            log.error("No user by email {}", email);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        UserLogin userLogin = new UserLogin(user);
+
+        String json = new Gson().toJson(userLogin);
+
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write(json);
+
+        return new ResponseEntity<>(userLogin, HttpStatus.OK);
+    }
+
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") String id){
+    public ResponseEntity<UserLogin> getUserById(@PathVariable("id") String id){
         log.info("Looking for a user by id {}", id);
         User user = service.getById(id);
         if (Objects.isNull(user)){
             log.error("No user by id {}", id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        UserLogin userLogin = new UserLogin(user);
+        return new ResponseEntity<>(userLogin, HttpStatus.OK);
     }
 }
