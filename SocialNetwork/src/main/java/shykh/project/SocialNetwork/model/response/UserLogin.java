@@ -18,17 +18,13 @@ public class UserLogin {
 
     private int age;
 
-    private String password;
-
     private String email;
 
     private String photo;
-
     public UserLogin(User user) {
         this.name = user.getName();
         this.lastName = user.getLastName();
         this.age = user.getAge();
-        this.password = user.getPassword();
         this.email = user.getEmail();
         this.photo = Base64.getEncoder().encodeToString(user.getPhoto());
     }
