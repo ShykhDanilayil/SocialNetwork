@@ -20,12 +20,13 @@ public class UserLogin {
 
     private String email;
 
-    private String photo;
+    private String base64Image;
+
     public UserLogin(User user) {
         this.name = user.getName();
         this.lastName = user.getLastName();
         this.age = user.getAge();
         this.email = user.getEmail();
-        this.photo = Base64.getEncoder().encodeToString(user.getPhoto());
+        this.base64Image = Base64.getEncoder().encodeToString(user.getPhoto());
     }
 }
