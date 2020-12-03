@@ -1,0 +1,40 @@
+body{
+    padding-top:30px;
+    background-color: #b4c9dc;
+}
+
+.glyphicon {  margin-bottom: 10px;margin-right: 10px;}
+
+small {
+    display: block;
+    line-height: 1.428571429;
+    color: #999;
+}
+
+#allUsers{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+}
+
+#width100 {
+    width: 100%;
+}
+
+#color{
+    background-color: #fff;
+    border: 1px solid #C2C2C2;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.background {
+    background-color: #fff;
+    border: 0;
+}
+
+.borderradius:first-child {
+    border-radius: 20px 20px 0 0;
+}
+
+.borderradius:last-child {
+    border-radius: 0 0 20px 20px;
+}

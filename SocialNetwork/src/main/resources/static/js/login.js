@@ -23,8 +23,15 @@ $("div#exit").ready(function () {
         xhr.onload = function () {
             if (xhr.status === 200) {
                 alert("STATUS 200")
-                xhr.location.replace("/cabinet");
-                // xhr.location.replace("cabinet.html");
+                let finalUrl = "";
+                let url = window.location.href.split("/");
+                for (let i = 0; i < url.length - 1; i++) {
+                    finalUrl += url[i] + "/";
+                }
+                finalUrl += "cabinet.html";
+                window.location.href = finalUrl;
+                //xhr.location.replace("/cabinet");
+                //xhr.location.replace("localhost:7777/cabinet.html");
                 alert("I'm exit");
             }
         }
@@ -37,7 +44,7 @@ $("div#exit").ready(function () {
 
             formData.append('photo', photo.prop('files')[0]);
             formData.append('name', $('#name').val());
-            formData.append('lastName', $('#latName').val());
+            formData.append('lastName', $('#lastName').val());
             formData.append('age', $('#age').val());
             formData.append('email', $('#email').val());
             formData.append('password', $('#password').val());

@@ -1,11 +1,10 @@
 let user = null;
-
-$.get("cabinet",function (data) {
-    if (data !== ""){
+$.get("cabinet", function (data) {
+    if (data !== "") {
         user = data;
     }
 }).done(function () {
-    let content = "<img src='' style='width:100%'>" +
+    let content = "<img src='data:image/png;base64," + user.base64Image +"' style='width:200px; height:350px'>" +
         "    <br>" +
         "    <ul>" +
         "        <li><b>Name : </b>" + user.name + "</li>" +
@@ -13,9 +12,5 @@ $.get("cabinet",function (data) {
         "        <li><b>Age : </b>" + user.age + "</li>" +
         "        <li><b>Email : </b>" + user.email + "</li>" +
         "    </ul>";
-    $("img").attr(
-        'src',
-        "data:image/png;photo,"
-        + user.photo);
     $("div#response").html(content);
 });
