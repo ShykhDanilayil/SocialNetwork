@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,7 +56,7 @@ public class UserController {
         User user = service.getByEmail(email);
 
         if (Objects.isNull(user)) {
-            log.error("User with email {} don't exist!", user.getEmail());
+            log.error("User with email {} don't exist!", email);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -66,32 +67,27 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        UserLogin userLogin = new UserLogin(user);
-
         HttpSession session = req.getSession(true);
-        session.setAttribute("name",user.getName());
-        session.setAttribute("lastName",user.getLastName());
-        session.setAttribute("age",user.getAge());
         session.setAttribute("email",user.getEmail());
-        session.setAttribute("photo",user.getPhoto());
-
-        String json = new Gson().toJson(userLogin);
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write(json);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<User>> getAllUsers(){
-        log.info("Looking for all user");
+    @GetMapping("/users")
+    public ResponseEntity<List<UserLogin>> getAllUsers(){
+        log.info("Looking for all users");
         List<User> users = service.getAllUsers();
         if (users.isEmpty()){
             log.info("No records found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        List<UserLogin> usersLogin = new ArrayList<>();
+        for (User user:
+             users) {
+            usersLogin.add(new UserLogin(user));
+        }
+
+        return new ResponseEntity<>(usersLogin, HttpStatus.OK);
     }
 
     @GetMapping("/cabinet")
@@ -105,11 +101,11 @@ public class UserController {
         }
         UserLogin userLogin = new UserLogin(user);
 
-        String json = new Gson().toJson(userLogin);
-
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write(json);
+//        String json = new Gson().toJson(userLogin);
+//
+//        resp.setContentType("application/json");
+//        resp.setCharacterEncoding("UTF-8");
+//        resp.getWriter().write(json);
 
         return new ResponseEntity<>(userLogin, HttpStatus.OK);
     }
