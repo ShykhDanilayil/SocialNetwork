@@ -6,19 +6,13 @@ $("div#exit").ready(function () {
     });
 
     $("button#submit").click(function () {
-
-        alert("I'm here");
-
         let data = new FormData;
-
         data.append("email1", $("input#email1").val());
         data.append("password1", $("input#password1").val());
 
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "/login");
         xhr.send(data);
-
-        alert("I'm here pislya formData");
 
         xhr.onload = function () {
             if (xhr.status === 200) {
@@ -28,11 +22,8 @@ $("div#exit").ready(function () {
                 for (let i = 0; i < url.length - 1; i++) {
                     finalUrl += url[i] + "/";
                 }
-                finalUrl += "cabinet.html";
+                finalUrl += "chatBox.html";
                 window.location.href = finalUrl;
-                //xhr.location.replace("/cabinet");
-                //xhr.location.replace("localhost:7777/cabinet.html");
-                alert("I'm exit");
             }
         }
     });
