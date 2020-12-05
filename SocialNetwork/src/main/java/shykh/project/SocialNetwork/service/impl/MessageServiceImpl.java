@@ -20,13 +20,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message getById(String id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Message> getAllMessages() {
-        return repository.findAll();
+    public List<Message> getMyMessagesAndResponse(String idUserFrom, String idUserTo) {
+        return repository.findAllByIdUserFromAndIdUserToOrIdUserFromAndIdUserTo(idUserFrom, idUserTo, idUserTo, idUserFrom);
     }
 
 }
