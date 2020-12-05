@@ -8,5 +8,7 @@ public interface MessageService {
 
     Message create(Message message);
 
-    List<Message> getMyMessagesAndResponse(String idUserFrom, String idUserTo);
+    Message getById(String id);
+
+    List<Message> getAllMessages();
 }
