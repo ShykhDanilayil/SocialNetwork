@@ -1,6 +1,5 @@
 package shykh.project.SocialNetwork.controller;
 
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,37 +87,5 @@ public class UserController {
         }
 
         return new ResponseEntity<>(usersLogin, HttpStatus.OK);
-    }
-
-    @GetMapping("/cabinet")
-    public ResponseEntity<UserLogin> getUserByEmail(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String email = req.getSession().getAttribute("email").toString();
-        log.info("Looking for a user by email {}", email);
-        User user = service.getByEmail(email);
-        if (Objects.isNull(user)){
-            log.error("No user by email {}", email);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        UserLogin userLogin = new UserLogin(user);
-
-//        String json = new Gson().toJson(userLogin);
-//
-//        resp.setContentType("application/json");
-//        resp.setCharacterEncoding("UTF-8");
-//        resp.getWriter().write(json);
-
-        return new ResponseEntity<>(userLogin, HttpStatus.OK);
-    }
-
-    @GetMapping("/user/{id}")
-    public ResponseEntity<UserLogin> getUserById(@PathVariable("id") String id){
-        log.info("Looking for a user by id {}", id);
-        User user = service.getById(id);
-        if (Objects.isNull(user)){
-            log.error("No user by id {}", id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        UserLogin userLogin = new UserLogin(user);
-        return new ResponseEntity<>(userLogin, HttpStatus.OK);
     }
 }
