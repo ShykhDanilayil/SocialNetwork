@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -45,5 +46,23 @@ public class Message {
 
     public void addUser(User user){
         users.add(user);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(id, message.id) &&
+                Objects.equals(idUserFrom, message.idUserFrom) &&
+                Objects.equals(idUserTo, message.idUserTo) &&
+                Objects.equals(text, message.text) &&
+                Objects.equals(date, message.date) &&
+                Objects.equals(time, message.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, idUserFrom, idUserTo, text, date, time);
     }
 }
