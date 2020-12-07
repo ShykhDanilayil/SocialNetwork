@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +39,7 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_massage", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "message_id"))
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
 
     public User(String name, String lastName, int age, String email, String password, byte[] photo) {
         this.name = name;
@@ -68,5 +70,17 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, lastName, age, email, password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", photo=" + Arrays.toString(photo) +
+                '}';
     }
 }

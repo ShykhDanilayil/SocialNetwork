@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -34,14 +35,14 @@ public class Message {
     @Column(name = "time")
     private String time;
     @ManyToMany(mappedBy = "messages")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Message(String idUserFrom, String idUserTo, String text) {
         this.idUserFrom = idUserFrom;
         this.idUserTo = idUserTo;
         this.text = text;
         this.date = new SimpleDateFormat ("dd.MM.yyyy").format(new Date());
-        this.time = new SimpleDateFormat ("hh:mm:ss").format(new Date());
+        this.time = new SimpleDateFormat ("kk:mm:ss").format(new Date());
     }
 
     public void addUser(User user){
@@ -64,5 +65,16 @@ public class Message {
     @Override
     public int hashCode() {
         return Objects.hash(id, idUserFrom, idUserTo, text, date, time);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "idUserFrom='" + idUserFrom + '\'' +
+                ", idUserTo='" + idUserTo + '\'' +
+                ", text='" + text + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                '}';
     }
 }
