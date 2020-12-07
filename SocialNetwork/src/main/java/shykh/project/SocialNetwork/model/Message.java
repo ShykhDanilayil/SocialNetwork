@@ -1,37 +1,48 @@
 package shykh.project.SocialNetwork.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "message")
-public class Message {
+public class Message implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "message_id")
+    @Getter
+    @Setter
     private String id;
     @Column(name = "id_user_from")
+    @Getter
+    @Setter
     private String idUserFrom;
     @Column(name = "id_user_to")
+    @Getter
+    @Setter
     private String idUserTo;
     @Column(name = "text")
+    @Getter
+    @Setter
     private String text;
     @Column(name = "date")
+    @Getter
+    @Setter
     private String date;
     @Column(name = "time")
+    @Getter
+    @Setter
     private String time;
     @ManyToMany(mappedBy = "messages")
     private List<User> users = new ArrayList<>();

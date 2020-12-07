@@ -1,44 +1,57 @@
 package shykh.project.SocialNetwork.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "user_id")
+    @Getter
+    @Setter
     private String id;
     @Column(name = "name")
+    @Getter
+    @Setter
     private String name;
     @Column(name = "lastName")
+    @Getter
+    @Setter
     private String lastName;
     @Column(name = "age")
+    @Getter
+    @Setter
     private int age;
     @Column(name = "email")
+    @Getter
+    @Setter
     private String email;
     @Column(name = "password")
+    @Getter
+    @Setter
     private String password;
     @Lob
     @Column(name = "photo")
+    @Getter
+    @Setter
     private byte[] photo;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_massage", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "message_id"))
+    @Getter
     private List<Message> messages = new ArrayList<>();
 
     public User(String name, String lastName, int age, String email, String password, byte[] photo) {
