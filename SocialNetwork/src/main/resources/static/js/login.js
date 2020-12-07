@@ -7,6 +7,7 @@ $("div#exit").ready(function () {
 
     $("button#submit").click(function () {
         let data = new FormData;
+
         data.append("email1", $("input#email1").val());
         data.append("password1", $("input#password1").val());
 
