@@ -13,7 +13,7 @@ $("div#exit").ready(function () {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "/login");
         xhr.send(data);
-
+        alert("I'm here")
         xhr.onload = function () {
             if (xhr.status === 200) {
                 alert("STATUS 200")

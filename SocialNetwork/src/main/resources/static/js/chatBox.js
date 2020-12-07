@@ -27,7 +27,7 @@ $("div.container").ready(function () {
     });
 });
 
-$(".msg_history").animate({scrollTop: $(document).height()}, "fast");
+//$(".msg_history").animate({scrollTop: $(document).height()}, "fast");
 
 $(window).on('keydown', function(e) {
     if (e.which == 13) {
@@ -44,12 +44,16 @@ function theFunctionClick(idOther){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/messages");
     xhr.send(formData);
-
+alert("I'm here");
     xhr.onload = function () {
+        alert("status : " + xhr.status);
         if (xhr.status === 200) {
+            alert("STATUS 200");
             let messages = JSON.parse(xhr.responseText);
+            alert("messages : " + messages);
             let content = "";
                 jQuery.each(messages, function (i, messages) {
+                    alert("messages : " + messages);
                     if (messages.idUserFrom === idOther) {
                         content += "<div class='incoming_msg'>" +
                             "   <div class='incoming_msg_img'> <img src='https://ptetutorials.com/images/user-profile.png'> </div>" +
