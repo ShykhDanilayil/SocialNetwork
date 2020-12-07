@@ -31,10 +31,9 @@ public class MessageController {
 
         System.out.println("message : " + message);
 
-        message.addUser(user); // Падає
-        service.create(message);
-
+        message.addUser(user);
         user.addMessage(message);
+        service.create(message);
 
         log.info("Message {} was added", message);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
@@ -50,6 +49,7 @@ public class MessageController {
         List<Message> messages = null;
         if (iUser.getMessages().size() != 0){
             messages = service.getMyMessagesAndResponse(iUser.getId(), otherUser.getId());
+            messages.forEach(System.out::println);
             log.info("Message history was load");
         }
         //MessageResponse messageResponses = new MessageResponse(messages, otherUser);
