@@ -1,17 +1,18 @@
 package shykh.project.SocialNetwork.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -22,16 +23,32 @@ public class Message {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "message_id")
+    @Setter
+    @Getter
     private String id;
     @Column(name = "id_user_from")
+    @Setter
+    @Getter
     private String idUserFrom;
     @Column(name = "id_user_to")
+    @Setter
+    @Getter
     private String idUserTo;
     @Column(name = "text")
+    @Setter
+    @Getter
     private String text;
+    @Column(name = "date_time")
+    @Setter
+    @Getter
+    private Date dateAndTime;
     @Column(name = "date")
+    @Setter
+    @Getter
     private String date;
     @Column(name = "time")
+    @Getter
+    @Setter
     private String time;
     @ManyToMany(mappedBy = "messages")
     private List<User> users = new ArrayList<>();
@@ -40,6 +57,7 @@ public class Message {
         this.idUserFrom = idUserFrom;
         this.idUserTo = idUserTo;
         this.text = text;
+        this.dateAndTime = new Date();
         this.date = new SimpleDateFormat ("dd.MM.yyyy").format(new Date());
         this.time = new SimpleDateFormat ("kk:mm:ss").format(new Date());
     }

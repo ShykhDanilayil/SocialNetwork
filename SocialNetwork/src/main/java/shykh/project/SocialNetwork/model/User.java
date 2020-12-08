@@ -1,8 +1,6 @@
 package shykh.project.SocialNetwork.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -22,23 +20,38 @@ public class User {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "user_id")
+    @Setter
+    @Getter
     private String id;
     @Column(name = "name")
+    @Setter
+    @Getter
     private String name;
     @Column(name = "lastName")
+    @Setter
+    @Getter
     private String lastName;
     @Column(name = "age")
+    @Setter
+    @Getter
     private int age;
     @Column(name = "email")
+    @Setter
+    @Getter
     private String email;
     @Column(name = "password")
+    @Setter
+    @Getter
     private String password;
     @Lob
     @Column(name = "photo")
+    @Setter
+    @Getter
     private byte[] photo;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_massage", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "message_id"))
+    @Getter
     private List<Message> messages = new ArrayList<>();
 
     public User(String name, String lastName, int age, String email, String password, byte[] photo) {
