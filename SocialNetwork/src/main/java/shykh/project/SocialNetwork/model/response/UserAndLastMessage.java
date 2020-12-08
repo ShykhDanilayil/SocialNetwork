@@ -3,6 +3,7 @@ package shykh.project.SocialNetwork.model.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import shykh.project.SocialNetwork.model.Message;
 import shykh.project.SocialNetwork.model.User;
 
 import java.util.Base64;
@@ -29,19 +30,9 @@ public class UserAndLastMessage {
         this.name = user.getName();
         this.lastName = user.getLastName();
         this.base64Image = Base64.getEncoder().encodeToString(user.getPhoto());
-        this.lastText = getMessage(user);
-        this.date = getData(user);
     }
-    private String getMessage(User user) {
-        if (user.getMessages().size() != 0) {
-            return user.getMessages().get(user.getMessages().size() - 1).getText();
-        }
-        return "";
-    }
-    private String getData(User user) {
-        if (user.getMessages().size() != 0) {
-            return user.getMessages().get(user.getMessages().size() - 1).getDate();
-        }
-        return "";
+    public void addLastMess(Message message){
+        this.lastText = message.getText();
+        this.date = message.getDate();
     }
 }
