@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, String> {
 
-    List<Message> findAllByIdUserFromAndIdUserToOrIdUserFromAndIdUserTo(String idUserFrom, String idUserTo, String idUserFrom2, String idUserTo2);
+    List<Message> findAllByIdUserFromAndIdUserToOrIdUserFromAndIdUserToOrderByDateAndTime(String idUserFrom, String idUserTo, String idUserFrom2, String idUserTo2);
 }

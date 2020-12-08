@@ -14,12 +14,24 @@ import java.util.List;
 @NoArgsConstructor
 public class MessageResponse {
 
-    private List<Message> messages;
+    private String idUserFrom;
+
+    private String text;
+
+    private String date;
+
+    private String time;
 
     private String base64Image;
 
-    public MessageResponse(List<Message> messages, User user) {
-        this.messages = messages;
+    public MessageResponse(Message message) {
+        this.idUserFrom = message.getIdUserFrom();
+        this.text = message.getText();
+        this.date = message.getDate();
+        this.time = message.getTime();
+    }
+
+    public void addPhotoOtherUser(User user){
         this.base64Image = Base64.getEncoder().encodeToString(user.getPhoto());
     }
 }
