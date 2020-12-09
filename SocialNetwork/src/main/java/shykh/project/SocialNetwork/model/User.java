@@ -4,49 +4,49 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class User {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "user_id")
-    @Getter
     @Setter
+    @Getter
     private String id;
     @Column(name = "name")
-    @Getter
     @Setter
+    @Getter
     private String name;
     @Column(name = "lastName")
-    @Getter
     @Setter
+    @Getter
     private String lastName;
     @Column(name = "age")
-    @Getter
     @Setter
+    @Getter
     private int age;
     @Column(name = "email")
-    @Getter
     @Setter
+    @Getter
     private String email;
     @Column(name = "password")
-    @Getter
     @Setter
+    @Getter
     private String password;
     @Lob
     @Column(name = "photo")
-    @Getter
     @Setter
+    @Getter
     private byte[] photo;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_massage", joinColumns = @JoinColumn(name = "user_id"),

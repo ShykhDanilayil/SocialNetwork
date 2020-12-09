@@ -7,12 +7,19 @@ $.get("chatPeople", function (data) {
     let content = "";
     jQuery.each(users, function (i, users) {
         content +=
-            "<div class='chat_list' id='user' style='cursor: pointer' onclick='theFunctionClick(\"" + users.id + "\")'>" +
+            "<div class='chat_list' id='" + users.id + "' style='cursor: pointer' onclick='theFunctionClick(\"" + users.id + "\")'>" +
 "   <div class='chat_people'>" +
 "       <div class='chat_img'> <img src='data:image/png;base64," + users.base64Image +"'> </div>" +
 "           <div class='chat_ib'>" +
-"               <h5>" + users.name + " " + users.lastName + "<span class='chat_date'>" + users.date + "</span></h5>" +
-"               <p>" + users.lastText + "</p>" +
+"               <h5>" + users.name + " " + users.lastName ;
+        if (users.date !== null){
+            content += "<span class='chat_date'>" + users.date + "</span>";
+        }
+        content += "</h5>";
+        if (users.lastText !== null){
+            content += "<p>" + users.lastText + "</p>";
+        }
+        content +=
 "           </div>" +
 "       </div>" +
 "   </div>" ;
@@ -27,11 +34,8 @@ $("div.container").ready(function () {
     });
 });
 
-//$(".msg_history").animate({scrollTop: $(document).height()}, "fast");
-
 $(window).on('keydown', function(e) {
     if (e.which == 13) {
-        alert("Enter");
         newMessage();
         return false;
     }
@@ -39,42 +43,46 @@ $(window).on('keydown', function(e) {
 
 function theFunctionClick(idOther){
     let formData = new FormData;
-    formData.append("idOtherUser", idOther);
+    formData.set("idOtherUser", idOther);
+    document.getElementById("" + idOther + "").style.backgroundColor = "#f1f1f1";
+    allMessages(formData, idOther);
+    document.getElementById("mesgs").style.backgroundColor = "#f1f1f1";
+}
 
+function allMessages(formData, idOther){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/messages");
     xhr.send(formData);
-alert("I'm here");
     xhr.onload = function () {
-        alert("status : " + xhr.status);
+
         if (xhr.status === 200) {
-            alert("STATUS 200");
             let messages = JSON.parse(xhr.responseText);
-            alert("messages : " + messages);
             let content = "";
-                jQuery.each(messages, function (i, messages) {
-                    alert("messages : " + messages);
-                    if (messages.idUserFrom === idOther) {
-                        content += "<div class='incoming_msg'>" +
-                            "   <div class='incoming_msg_img'> <img src='https://ptetutorials.com/images/user-profile.png'> </div>" +
-                            "   <div class='received_msg'>" +
-                            "       <div class='received_withd_msg'>" +
-                            "           <p>" + messages.text + "</p>" +
-                            "       <span class='time_date'>" + messages.time + " | " + messages.date + "</span></div>" +
-                            "   </div>" +
-                            "</div>";
-                    } else {
-                        content += "<div class='outgoing_msg'>" +
-                            "   <div class='sent_msg'>" +
-                            "       <p>" + messages.text + "</p>" +
-                            "   <span class='time_date'>" + messages.time + " | " + messages.date + "</span> </div>" +
-                            "</div>";
-                    }
-                });
-                $("div.msg_history").html(content);
+            jQuery.each(messages, function (i, messages) {
+                if (messages.idUserFrom === idOther) {
+                    content += "<div class='incoming_msg'>" +
+                        "   <div class='incoming_msg_img'> <img src='data:image/png;base64," + messages.base64Image +"' id='avatar'> </div>" +
+                        "   <div class='received_msg'>" +
+                        "       <div class='received_withd_msg'>" +
+                        "           <p>" + messages.text + "</p>" +
+                        "       <span class='time_date'>" + messages.time + " | " + messages.date + "</span></div>" +
+                        "   </div>" +
+                        "</div>";
+                } else {
+                    content += "<div class='outgoing_msg'>" +
+                        "   <div class='sent_msg'>" +
+                        "       <p>" + messages.text + "</p>" +
+                        "   <span class='time_date'>" + messages.time + " | " + messages.date + "</span> </div>" +
+                        "</div>";
+                }
+            });
+            $("div.msg_history").html(content);
+            $("#noMessage").hide();
+            $("div.type_msg").show();
+            let div = document.getElementById("scroll");
+            div.scrollTop = div.scrollHeight;
         }
     };
-
 }
 
 function newMessage() {
@@ -83,24 +91,21 @@ function newMessage() {
         return false;
     }
     let data = new FormData;
-
     data.append("text", message);
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/message");
     xhr.send(data);
 
-    xhr.onload = function () {
-        if (xhr.status === 201) {
-            let message = JSON.parse(xhr.responseText);
-            $("div.msg_history").html("<div class='outgoing_msg'>" +
-                "   <div class='sent_msg'>" +
-                "       <p>" + message.text + "</p>" +
-                "       <span class='time_date'>" + message.time + " | " + message.date + "</span> </div>" +
-                "</div>");
+     xhr.onload = function () {
 
-            $("input#message").val(null);
-            $(".msg_history").animate({scrollTop: $(document).height()}, "fast");
-        }
-    }
+         if (xhr.status === 201) {
+             user = JSON.parse(xhr.responseText);
+             let formData = new FormData;
+             formData.set("idOtherUser", user.id);
+
+             allMessages(formData, user.id);
+             $("input#message").val(null);
+         }
+     }
 };

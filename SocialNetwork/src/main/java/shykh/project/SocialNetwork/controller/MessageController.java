@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shykh.project.SocialNetwork.model.Message;
 import shykh.project.SocialNetwork.model.User;
+import shykh.project.SocialNetwork.model.response.MessageResponse;
 import shykh.project.SocialNetwork.service.impl.MessageServiceImpl;
 import shykh.project.SocialNetwork.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -24,36 +26,43 @@ public class MessageController {
     UserServiceImpl userService;
 
     @PostMapping("/message")
-    public ResponseEntity<Message> createMessage(HttpServletRequest req){
+    public ResponseEntity<User> createMessage(HttpServletRequest req){
         User user = userService.getByEmail(req.getSession().getAttribute("email").toString());
+        User otherUser = userService.getById(req.getSession().getAttribute("idOtherUser").toString());
 
-        Message message = new Message(user.getId(), req.getSession().getAttribute("idOtherUser").toString(), req.getParameter("text"));
-
-        System.out.println("message : " + message);
+        Message message = new Message(user.getId(), otherUser.getId(), req.getParameter("text"));
 
         message.addUser(user);
         user.addMessage(message);
         service.create(message);
 
         log.info("Message {} was added", message);
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        return new ResponseEntity<>(otherUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/messages")
-    public ResponseEntity<List<Message>> showAllMessages( HttpServletRequest req){
+    public ResponseEntity<List<MessageResponse>> showAllMessages( HttpServletRequest req){
         User iUser = userService.getByEmail(req.getSession().getAttribute("email").toString());
         String idOtherUser = req.getParameter("idOtherUser");
         System.out.println("id : " + idOtherUser);
         User otherUser = userService.getById(idOtherUser);
         log.info("Looking for history messages");
-        List<Message> messages = null;
+        List<MessageResponse> messageResponses = new ArrayList<>();
         if (iUser.getMessages().size() != 0){
-            messages = service.getMyMessagesAndResponse(iUser.getId(), otherUser.getId());
-            messages.forEach(System.out::println);
+            List<Message> messages = service.getMyMessagesAndResponse(iUser.getId(), otherUser.getId());
             log.info("Message history was load");
+            for (Message message:
+                    messages) {
+                messageResponses.add(new MessageResponse(message));
+                for (MessageResponse mess:
+                        messageResponses) {
+                    if (message.getIdUserTo().equals(otherUser.getId())){
+                        mess.addPhotoOtherUser(otherUser);
+                    }
+                }
+            }
         }
-        //MessageResponse messageResponses = new MessageResponse(messages, otherUser);
         req.getSession().setAttribute("idOtherUser",otherUser.getId());
-        return new ResponseEntity<>(messages, HttpStatus.OK);
+        return new ResponseEntity<>(messageResponses, HttpStatus.OK);
     }
 }

@@ -1,10 +1,12 @@
 package shykh.project.SocialNetwork.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,30 +17,34 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "message")
-public class Message implements Serializable {
+public class Message {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "message_id")
-    @Getter
     @Setter
+    @Getter
     private String id;
     @Column(name = "id_user_from")
-    @Getter
     @Setter
+    @Getter
     private String idUserFrom;
     @Column(name = "id_user_to")
-    @Getter
     @Setter
+    @Getter
     private String idUserTo;
     @Column(name = "text")
-    @Getter
     @Setter
+    @Getter
     private String text;
-    @Column(name = "date")
-    @Getter
+    @Column(name = "date_time")
     @Setter
+    @Getter
+    private Date dateAndTime;
+    @Column(name = "date")
+    @Setter
+    @Getter
     private String date;
     @Column(name = "time")
     @Getter
@@ -51,6 +57,7 @@ public class Message implements Serializable {
         this.idUserFrom = idUserFrom;
         this.idUserTo = idUserTo;
         this.text = text;
+        this.dateAndTime = new Date();
         this.date = new SimpleDateFormat ("dd.MM.yyyy").format(new Date());
         this.time = new SimpleDateFormat ("kk:mm:ss").format(new Date());
     }
