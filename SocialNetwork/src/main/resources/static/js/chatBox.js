@@ -1,47 +1,55 @@
 let users = null;
 $.get("chatPeople", function (data) {
-    if (data !== "") {
-    users = data;
-}
-}).done(function () {
+    if (data === "login-failed") {
+        let finalUrl = "";
+        let url = window.location.href.split("/");
+        for (let i = 0; i < url.length - 1; i++) {
+            finalUrl += url[i] + "/";
+        }
+        finalUrl += "logIn";
+        window.location.href = finalUrl;
+    } else {
+        users = data;
+    }
+}).success(function () {
     let content = "";
     jQuery.each(users, function (i, users) {
         content +=
             "<div class='chat_list' id='" + users.id + "' style='cursor: pointer' onclick='theFunctionClick(\"" + users.id + "\")'>" +
-"   <div class='chat_people'>" +
-"       <div class='chat_img'> <img src='data:image/png;base64," + users.base64Image +"'> </div>" +
-"           <div class='chat_ib'>" +
-"               <h5>" + users.name + " " + users.lastName ;
-        if (users.date !== null){
+            "   <div class='chat_people'>" +
+            "       <div class='chat_img'> <img src='data:image/png;base64," + users.base64Image + "'> </div>" +
+            "           <div class='chat_ib'>" +
+            "               <h5>" + users.name + " " + users.lastName;
+        if (users.date !== null) {
             content += "<span class='chat_date'>" + users.date + "</span>";
         }
         content += "</h5>";
-        if (users.lastText !== null){
+        if (users.lastText !== null) {
             content += "<p>" + users.lastText + "</p>";
         }
         content +=
-"           </div>" +
-"       </div>" +
-"   </div>" ;
+            "           </div>" +
+            "       </div>" +
+            "   </div>";
     });
     $("div.inbox_chat").html(content);
 });
 
 $("div.container").ready(function () {
 
-    $("button.msg_send_btn").click(function() {
+    $("button.msg_send_btn").click(function () {
         newMessage();
     });
 });
 
-$(window).on('keydown', function(e) {
+$(window).on('keydown', function (e) {
     if (e.which == 13) {
         newMessage();
         return false;
     }
 });
 
-function theFunctionClick(idOther){
+function theFunctionClick(idOther) {
     let formData = new FormData;
     formData.set("idOtherUser", idOther);
     document.getElementById("" + idOther + "").style.backgroundColor = "#f1f1f1";
@@ -49,7 +57,7 @@ function theFunctionClick(idOther){
     document.getElementById("mesgs").style.backgroundColor = "#f1f1f1";
 }
 
-function allMessages(formData, idOther){
+function allMessages(formData, idOther) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/messages");
     xhr.send(formData);
@@ -61,7 +69,7 @@ function allMessages(formData, idOther){
             jQuery.each(messages, function (i, messages) {
                 if (messages.idUserFrom === idOther) {
                     content += "<div class='incoming_msg'>" +
-                        "   <div class='incoming_msg_img'> <img src='data:image/png;base64," + messages.base64Image +"' id='avatar'> </div>" +
+                        "   <div class='incoming_msg_img'> <img src='data:image/png;base64," + messages.base64Image + "' id='avatar'> </div>" +
                         "   <div class='received_msg'>" +
                         "       <div class='received_withd_msg'>" +
                         "           <p>" + messages.text + "</p>" +
@@ -87,7 +95,7 @@ function allMessages(formData, idOther){
 
 function newMessage() {
     message = $("input#message").val();
-    if($.trim(message) == '') {
+    if ($.trim(message) == '') {
         return false;
     }
     let data = new FormData;
@@ -97,15 +105,15 @@ function newMessage() {
     xhr.open("POST", "/message");
     xhr.send(data);
 
-     xhr.onload = function () {
+    xhr.onload = function () {
 
-         if (xhr.status === 201) {
-             user = JSON.parse(xhr.responseText);
-             let formData = new FormData;
-             formData.set("idOtherUser", user.id);
+        if (xhr.status === 201) {
+            user = JSON.parse(xhr.responseText);
+            let formData = new FormData;
+            formData.set("idOtherUser", user.id);
 
-             allMessages(formData, user.id);
-             $("input#message").val(null);
-         }
-     }
+            allMessages(formData, user.id);
+            $("input#message").val(null);
+        }
+    }
 };
