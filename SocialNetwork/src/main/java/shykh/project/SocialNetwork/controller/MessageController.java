@@ -32,8 +32,6 @@ public class MessageController {
 
         Message message = new Message(user.getId(), otherUser.getId(), req.getParameter("text"));
 
-        System.out.println("message : " + message);
-
         message.addUser(user);
         user.addMessage(message);
         service.create(message);
@@ -52,11 +50,9 @@ public class MessageController {
         List<MessageResponse> messageResponses = new ArrayList<>();
         if (iUser.getMessages().size() != 0){
             List<Message> messages = service.getMyMessagesAndResponse(iUser.getId(), otherUser.getId());
-            messages.forEach(System.out::println);
             log.info("Message history was load");
             for (Message message:
                     messages) {
-                System.out.println(message);
                 messageResponses.add(new MessageResponse(message));
                 for (MessageResponse mess:
                         messageResponses) {
