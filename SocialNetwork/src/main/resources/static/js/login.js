@@ -23,7 +23,7 @@ $("div#exit").ready(function () {
                 for (let i = 0; i < url.length - 1; i++) {
                     finalUrl += url[i] + "/";
                 }
-                finalUrl += "chatBox.html";
+                finalUrl += "chat";
                 window.location.href = finalUrl;
             }
         }
