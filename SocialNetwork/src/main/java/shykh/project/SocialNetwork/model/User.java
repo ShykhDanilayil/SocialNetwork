@@ -4,10 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -53,6 +50,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "message_id"))
     @Getter
     private List<Message> messages = new ArrayList<>();
+    @OneToMany(mappedBy = "toId")
+    private Set<Followers> followers = new HashSet<>();
+    @OneToMany(mappedBy = "fromId")
+    private Set<Followers> following = new HashSet<>();
 
     public User(String name, String lastName, int age, String email, String password, byte[] photo) {
         this.name = name;
