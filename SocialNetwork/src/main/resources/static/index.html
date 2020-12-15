@@ -6,121 +6,130 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/login.css"/>
     <script src="js/login.js"></script>
 </head>
 <body>
-    <div class="modal-dialog modal-lg" id="exit" data-toggle="modal" data-target="#myModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Login/Registration</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-8" style="border-right: 1px dotted #C2C2C2;padding-right: 30px;">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" id="tab">
-                            <li class="active"><a href="#Login" data-toggle="tab">Login</a></li>
-                            <li><a href="#Registration" data-toggle="tab">Registration</a></li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="Login">
-                                <form role="form" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label for="email1" class="col-sm-2 control-label">
-                                            Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="email1" name="username" placeholder="Email" />
-                                        </div>
+<div class="modal-dialog modal-lg" id="exit" data-toggle="modal" data-target="#myModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Login/Registration</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-8" style="border-right: 1px dotted #C2C2C2;padding-right: 30px;">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="tab">
+                        <li class="active"><a href="#Login" data-toggle="tab">Login</a></li>
+                        <li><a href="#Registration" data-toggle="tab">Registration</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Login">
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="email1" class="col-sm-2 control-label">
+                                        Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="email1" name="username"
+                                               placeholder="Email"/>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="password1" class="col-sm-2 control-label">
-                                            Password</label>
-                                        <div class="col-sm-10">
-                                            <input type="password" class="form-control" id="password1" name="password" placeholder="Password" />
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password1" class="col-sm-2 control-label">
+                                        Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="password1" name="password"
+                                               placeholder="Password"/>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                        </div>
-                                        <div class="col-sm-10">
-                                            <button type="submit" id="submit" value="Login" class="btn btn-primary btn-sm">
-                                                Login</button>
-                                            <a href="javascript:;">Forgot your password?</a>
-                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
                                     </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane" id="Registration">
-                                <form role="form" name="my-form" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label for="name" class="col-sm-2 control-label">
-                                            Name</label>
-                                        <div class="col-sm-10">
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" />
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" />
-                                                </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" id="submit" value="Login" class="btn btn-primary btn-sm">
+                                            Login
+                                        </button>
+                                        <a href="javascript:;">Forgot your password?</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="Registration">
+                            <form role="form" name="my-form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 control-label">
+                                        Name</label>
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                       placeholder="Name"/>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" id="lastName" name="lastName"
+                                                       placeholder="Last Name"/>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="age" class="col-sm-2 control-label">
-                                            Age</label>
-                                        <div class="col-sm-10">
-                                                    <input type="number" class="form-control" id="age" name="age" placeholder="Age" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email" class="col-sm-2 control-label">
-                                            Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password" class="col-sm-2 control-label">
-                                            Password</label>
-                                        <div class="col-sm-10">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="file" id="labelToFile" class="col-sm-2 control-label">
-                                            Photo</label>
-                                        <div class="col-sm-10">
-                                            <input type="file" id="file" name="file" required />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                        </div>
-                                        <div class="col-sm-10">
-                                            <button type="button" id="registr" class="btn btn-primary btn-sm">
-                                                Save & Continue</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div id="OR" class="hidden-xs">
-                            OR</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row text-center sign-with">
-                            <div class="col-md-12">
-                                <h3>
-                                    Sign in with</h3>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="btn-group btn-group-justified">
-                                    <a href="#" class="btn btn-primary">Facebook</a> <a href="#" class="btn btn-danger">
-                                    Google</a>
                                 </div>
+                                <div class="form-group">
+                                    <label for="age" class="col-sm-2 control-label">
+                                        Age</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="age" name="age"
+                                               placeholder="Age"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 control-label">
+                                        Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                               placeholder="Email"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-sm-2 control-label">
+                                        Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="password" name="password"
+                                               placeholder="Password"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="file" id="labelToFile" class="col-sm-2 control-label">
+                                        Photo</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" id="file" name="file" required/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="button" id="registr" class="btn btn-primary btn-sm">
+                                            Save & Continue
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="OR" class="hidden-xs">
+                        OR
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row text-center sign-with">
+                        <div class="col-md-12">
+                            <h3>
+                                Sign in with</h3>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="btn-group btn-group-justified">
+                                <a href="#" class="btn btn-primary">Facebook</a> <a href="#" class="btn btn-danger">
+                                Google</a>
                             </div>
                         </div>
                     </div>
@@ -128,5 +137,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

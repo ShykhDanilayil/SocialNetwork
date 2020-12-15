@@ -1,42 +1,6 @@
-let users = null;
-$.get("chatPeople", function (data) {
-    if (data === "login-failed") {
-        let finalUrl = "";
-        let url = window.location.href.split("/");
-        for (let i = 0; i < url.length - 1; i++) {
-            finalUrl += url[i] + "/";
-        }
-        finalUrl += "logIn";
-        window.location.href = finalUrl;
-    } else {
-        users = data;
-    }
-}).success(function () {
-    let content = "";
-    jQuery.each(users, function (i, users) {
-        content +=
-            "<div class='chat_list' id='" + users.id + "' style='cursor: pointer' onclick='theFunctionClick(\"" + users.id + "\")'>" +
-            "   <div class='chat_people'>" +
-            "       <div class='chat_img'> <img src='data:image/png;base64," + users.base64Image + "'> </div>" +
-            "           <div class='chat_ib'>" +
-            "               <h5>" + users.name + " " + users.lastName;
-        if (users.date !== null) {
-            content += "<span class='chat_date'>" + users.date + "</span>";
-        }
-        content += "</h5>";
-        if (users.lastText !== null) {
-            content += "<p>" + users.lastText + "</p>";
-        }
-        content +=
-            "           </div>" +
-            "       </div>" +
-            "   </div>";
-    });
-    $("div.inbox_chat").html(content);
-});
+allfriends();
 
 $("div.container").ready(function () {
-
     $("button.msg_send_btn").click(function () {
         newMessage();
     });
@@ -57,6 +21,88 @@ function theFunctionClick(idOther) {
     document.getElementById("mesgs").style.backgroundColor = "#f1f1f1";
 }
 
+function goToProfile() {
+    let finalUrl = "";
+    let url = window.location.href.split("/");
+    for (let i = 0; i < url.length - 1; i++) {
+        finalUrl += url[i] + "/";
+    }
+    finalUrl += "profile";
+    window.location.href = finalUrl;
+}
+
+function allUsers() {
+    let finalUrl = "";
+    let url = window.location.href.split("/");
+    for (let i = 0; i < url.length - 1; i++) {
+        finalUrl += url[i] + "/";
+    }
+    finalUrl += "allUsers";
+    window.location.href = finalUrl;
+}
+
+function newMessage() {
+    message = $("input#message").val();
+    if ($.trim(message) == '') {
+        return false;
+    }
+    let data = new FormData;
+    data.append("text", message);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/message");
+    xhr.send(data);
+
+    xhr.onload = function () {
+        if (xhr.status === 201) {
+            user = JSON.parse(xhr.responseText);
+            let formData = new FormData;
+            formData.set("idOtherUser", user.id);
+            allMessages(formData, user.id);
+            $("input#message").val(null);
+        }
+    }
+}
+
+function allfriends() {
+    let users = null;
+    $.get("chatPeople", function (data) {
+        if (data === "login-failed") {
+            let finalUrl = "";
+            let url = window.location.href.split("/");
+            for (let i = 0; i < url.length - 1; i++) {
+                finalUrl += url[i] + "/";
+            }
+            finalUrl += "logIn";
+            window.location.href = finalUrl;
+        } else {
+            users = data;
+        }
+    }).success(function () {
+        let content = "";
+        jQuery.each(users, function (i, users) {
+            content +=
+                "<div class='chat_list' id='" + users.id + "' style='cursor: pointer' onclick='theFunctionClick(\"" + users.id + "\")'>" +
+                "   <div class='chat_people'>" +
+                "       <div class='chat_img'> <img src='data:image/png;base64," + users.base64Image + "'> </div>" +
+                "           <div class='chat_ib'>" +
+                "               <h5>" + users.name + " " + users.lastName;
+            if (users.date !== null) {
+                content += "<span class='chat_date'>" + users.date + "</span>";
+            }
+            content += "</h5>";
+            if (users.lastText !== null) {
+                content += "<p>" + users.lastText + "</p>";
+            }
+            content +=
+                "           </div>" +
+                "       </div>" +
+                "   </div>";
+        });
+        $("div.inbox_chat").html(content);
+    });
+}
+
 function allMessages(formData, idOther) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/messages");
@@ -69,7 +115,7 @@ function allMessages(formData, idOther) {
             jQuery.each(messages, function (i, messages) {
                 if (messages.idUserFrom === idOther) {
                     content += "<div class='incoming_msg'>" +
-                        "   <div class='incoming_msg_img'> <img src='data:image/png;base64," + messages.base64Image + "' id='avatar'> </div>" +
+                        "   <div class='incoming_msg_img'> <img src='data:image/png;base64," + messages.base64Image + "' onclick='goToProfile()'> </div>" +
                         "   <div class='received_msg'>" +
                         "       <div class='received_withd_msg'>" +
                         "           <p>" + messages.text + "</p>" +
@@ -92,28 +138,3 @@ function allMessages(formData, idOther) {
         }
     };
 }
-
-function newMessage() {
-    message = $("input#message").val();
-    if ($.trim(message) == '') {
-        return false;
-    }
-    let data = new FormData;
-    data.append("text", message);
-
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/message");
-    xhr.send(data);
-
-    xhr.onload = function () {
-
-        if (xhr.status === 201) {
-            user = JSON.parse(xhr.responseText);
-            let formData = new FormData;
-            formData.set("idOtherUser", user.id);
-
-            allMessages(formData, user.id);
-            $("input#message").val(null);
-        }
-    }
-};

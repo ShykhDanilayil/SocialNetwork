@@ -77,7 +77,7 @@ function validateForm() {
     } else if (password == null || password == "") {
         alert("Please enter your password");
         return false;
-    } else if (password.length < 5 || password.length > 25){
+    } else if (password.length < 5 || password.length > 25) {
         alert("Password length < 5 or > 25");
         return false;
     } else if (photo == null || photo == "") {

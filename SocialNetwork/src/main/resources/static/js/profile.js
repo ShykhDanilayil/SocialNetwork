@@ -1,5 +1,5 @@
 let user = null;
-$.get("cab", function (data) {
+$.get("prof", function (data) {
     if (data === "login-failed") {
         let finalUrl = "";
         let url = window.location.href.split("/");
