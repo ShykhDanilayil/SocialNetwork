@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shykh.project.SocialNetwork.model.Message;
 import shykh.project.SocialNetwork.model.User;
 import shykh.project.SocialNetwork.model.response.UserAndLastMessage;
+import shykh.project.SocialNetwork.service.impl.FollowersServiceImpl;
 import shykh.project.SocialNetwork.service.impl.MessageServiceImpl;
 import shykh.project.SocialNetwork.service.impl.UserServiceImpl;
 
@@ -29,6 +30,9 @@ public class ChatController {
     @Autowired
     MessageServiceImpl messageService;
 
+    @Autowired
+    FollowersServiceImpl followersService;
+
     @GetMapping("/chatPeople")
     public ResponseEntity<List<UserAndLastMessage>> getUsersInChat(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (Objects.nonNull(req.getSession().getAttribute("email"))) {
@@ -37,19 +41,22 @@ public class ChatController {
             List<User> users = service.getAllUsers();
             users.remove(iUser);
             if (users.isEmpty()) {
-                log.info("No records found");
+                log.error("No records found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            List<Message> messages = null;
             List<UserAndLastMessage> usersChat = new ArrayList<>();
+            List<Message> messages = null;
             for (User user :
                     users) {
-                UserAndLastMessage userAndLastMessage = new UserAndLastMessage(user);
-                if (messageService.getMyMessagesAndResponse(iUser.getId(), user.getId()).size() != 0) {
-                    messages = messageService.getMyMessagesAndResponse(iUser.getId(), user.getId());
-                    userAndLastMessage.addLastMess(messages.get(messages.size() - 1));
+                if (Objects.nonNull(followersService.getFollowers(iUser, user)) && Objects.nonNull(followersService.getFollowers(user, iUser))) {
+                    log.info("Looking for all friends");
+                    UserAndLastMessage userAndLastMessage = new UserAndLastMessage(user);
+                    if (messageService.getMyMessagesAndResponse(iUser.getId(), user.getId()).size() != 0) {
+                        messages = messageService.getMyMessagesAndResponse(iUser.getId(), user.getId());
+                        userAndLastMessage.addLastMess(messages.get(messages.size() - 1));
+                    }
+                    usersChat.add(userAndLastMessage);
                 }
-                usersChat.add(userAndLastMessage);
             }
             return new ResponseEntity<>(usersChat, HttpStatus.OK);
         } else {
@@ -59,7 +66,5 @@ public class ChatController {
             resp.getWriter().write("login-failed");
             return null;
         }
-
-
     }
 }
