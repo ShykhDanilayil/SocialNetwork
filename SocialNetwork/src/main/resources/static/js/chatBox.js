@@ -16,6 +16,7 @@ $(window).on('keydown', function (e) {
 function theFunctionClick(idOther) {
     let formData = new FormData;
     formData.set("idOtherUser", idOther);
+    $(".chat_list").css('background-color', '#f8f8f8');
     document.getElementById("" + idOther + "").style.backgroundColor = "#f1f1f1";
     allMessages(formData, idOther);
     document.getElementById("mesgs").style.backgroundColor = "#f1f1f1";
@@ -60,6 +61,7 @@ function newMessage() {
             formData.set("idOtherUser", user.id);
             allMessages(formData, user.id);
             $("input#message").val(null);
+            $("div#" + user.id + " p").html(message);
         }
     }
 }
@@ -100,6 +102,7 @@ function allfriends() {
                 "   </div>";
         });
         $("div.inbox_chat").html(content);
+        $("div#all").show();
     });
 }
 
@@ -115,7 +118,7 @@ function allMessages(formData, idOther) {
             jQuery.each(messages, function (i, messages) {
                 if (messages.idUserFrom === idOther) {
                     content += "<div class='incoming_msg'>" +
-                        "   <div class='incoming_msg_img'> <img src='data:image/png;base64," + messages.base64Image + "' onclick='goToProfile()'> </div>" +
+                        "   <div class='incoming_msg_img'> <img src='data:image/png;base64," + messages.base64Image + "' onclick='goToProfile()' style='cursor: pointer'> </div>" +
                         "   <div class='received_msg'>" +
                         "       <div class='received_withd_msg'>" +
                         "           <p>" + messages.text + "</p>" +
@@ -137,4 +140,20 @@ function allMessages(formData, idOther) {
             div.scrollTop = div.scrollHeight;
         }
     };
+}
+
+function search() {
+    var input, filter, h5, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    h5 = document.getElementsByTagName("h5");
+
+    $(".chat_list").css('background-color', '#f8f8f8');
+
+    for (i = 0; i < h5.length; i++) {
+        txtValue = h5[i].textContent || h5[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            h5[i].parentElement.parentElement.parentElement.style.backgroundColor = "#d8d8d8";
+        }
+    }
 }

@@ -12,8 +12,8 @@ $.get("prof", function (data) {
         user = data;
     }
 }).done(function () {
-    let content = "<img src='data:image/png;base64," + user.base64Image + "' style='width:200px; height:350px'>" +
-        "    <br>" +
+    let content = "<img src='data:image/png;base64," + user.base64Image + "'>" +
+        "    <hr>" +
         "    <ul>" +
         "        <li><b>Name : </b>" + user.name + "</li>" +
         "        <li><b>Last Name : </b>" + user.lastName + "</li>" +
@@ -21,4 +21,8 @@ $.get("prof", function (data) {
         "        <li><b>Email : </b>" + user.email + "</li>" +
         "    </ul>";
     $("div#response").html(content);
+    $("div#head").html("<div class='topnav' id='myTopnav'>" +
+        "            <a href='/chat' class='active'>Back</a>" +
+        "            <a href='/logIn' id='logOut' onclick='logOutFunc()'>log out</a>" +
+        "            </div>");
 });

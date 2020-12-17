@@ -64,6 +64,17 @@ function getContent() {
                 "    </div>";
         });
         $("div#allUsers").html(content);
+        $("div#head").html("<div class='topnav' id='myTopnav'>" +
+            "            <a href='/chat' class='active'>Back</a>" +
+            "            <a href='/logIn' id='logOut' onclick='logOutFunc()'>log out</a>" +
+            "<div class='collapse navbar-collapse' id='navbarSupportedContent'>" +
+            "    <form class='form-inline ml-auto'>" +
+            "      <div class='md-form my-0'>" +
+            "        <input class='form-control' type='text' placeholder='Search' aria-label='Search' id='searchUser' onkeyup='search()'>" +
+            "      </div>" +
+            "    </form>" +
+            "  </div>" +
+            "            </div>");
     });
 }
 
@@ -99,6 +110,24 @@ function deleteFriend(otherId) {
             xhr.onload = function () {
                 getContent();
             }
+        }
+    }
+}
+
+function search() {
+    var input, filter, h5, i, txtValue;
+    input = document.getElementById("searchUser");
+    filter = input.value.toUpperCase();
+    h5 = document.getElementsByTagName("h4");
+
+    $(".well-sm").css('background-color', '#f8f8f8');
+
+    for (i = 0; i < h5.length; i++) {
+        txtValue = h5[i].textContent || h5[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            h5[i].parentElement.parentElement.parentElement.style.backgroundColor = "#d8d8d8";
+        } else {
+            h5[i].parentElement.parentElement.parentElement.parentElement.style.display = "none";
         }
     }
 }
