@@ -28,6 +28,6 @@ public class UserServiceTest {
         System.out.println("***---- &&&&&& ----***");
         System.out.println(actual);// null
 
-        Assertions.assertEquals(expected,expected);
+        Assertions.assertEquals(expected,actual);
     }
 }
