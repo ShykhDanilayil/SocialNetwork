@@ -49,6 +49,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Swagger -->
 		<dependency>
@@ -71,23 +76,6 @@
 			<artifactId>swagger-models</artifactId>
 			<version>${swagger-models.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>shykh.project</groupId>
-            <artifactId>SocialNetwork</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>3.6.28</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -102,5 +90,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
