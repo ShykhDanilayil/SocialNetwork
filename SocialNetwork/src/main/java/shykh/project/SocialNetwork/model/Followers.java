@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 
 @AllArgsConstructor
@@ -28,5 +29,20 @@ public class Followers {
     public Followers(User from, User to) {
         this.fromId = from;
         this.toId = to;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Followers followers = (Followers) o;
+        return Objects.equals(id, followers.id) &&
+                Objects.equals(fromId, followers.fromId) &&
+                Objects.equals(toId, followers.toId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, fromId, toId);
     }
 }
